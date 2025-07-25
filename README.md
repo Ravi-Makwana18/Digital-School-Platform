@@ -86,8 +86,8 @@ The **Digital School Platform** is a modern, full-stack web application designed
 ### 📦 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Yogndrr/MERN-School-Management-System.git
-cd MERN-School-Management-System
+git clone https://github.com/Ravi-Makwana18/Digital-School-Platform.git
+cd Digital-School-Platform
 ````
 
 ---
