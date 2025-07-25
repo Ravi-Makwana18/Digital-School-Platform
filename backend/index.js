@@ -1,15 +1,15 @@
+const dotenv = require("dotenv")
 const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
-const dotenv = require("dotenv")
-
-const app = express()
 const Routes = require("./routes/route.js")
-const PORT = process.env.PORT || 5001
 dotenv.config();
 
+const app = express()
+const PORT = process.env.PORT || 5001
+
 app.use(cors({
-  origin: 'https://digital-school-platform-7z5x.vercel.app/',
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
