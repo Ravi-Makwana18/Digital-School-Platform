@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5001
 dotenv.config();
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://digital-school-platform-7z5x.vercel.app/',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
