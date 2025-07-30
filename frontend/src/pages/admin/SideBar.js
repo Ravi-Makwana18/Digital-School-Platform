@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { Divider, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { Divider, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Box, Typography, Avatar, Badge } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
+// Icons
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
 import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
@@ -9,113 +11,172 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
+
+// Styled components
+const MenuItemBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        backgroundColor: '#e74c3c',
+        color: 'white',
+        fontSize: 9,
+        height: 16,
+        minWidth: 16,
+        padding: '0 4px'
+    }
+}));
+
+const UserSection = styled(Box)({
+    padding: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: '16px'
+});
+
+const StyledListItemButton = styled(ListItemButton)(({ active }) => ({
+    margin: '4px 8px',
+    borderRadius: '8px',
+    transition: 'all 0.3s ease',
+    backgroundColor: active ? 'rgba(106, 5, 114, 0.08)' : 'transparent',
+    '&:hover': {
+        backgroundColor: 'rgba(106, 5, 114, 0.05)',
+    },
+    '& .MuiListItemIcon-root': {
+        color: active ? '#6a0572' : '#666',
+        minWidth: '40px'
+    },
+    '& .MuiListItemText-primary': {
+        fontSize: '0.9rem',
+        fontWeight: active ? 600 : 500,
+        color: active ? '#6a0572' : '#555'
+    }
+}));
 
 
 const SideBar = () => {
     const location = useLocation();
+    
+    const isActive = (path) => {
+        if (path === "/" || path === "/Admin/dashboard") {
+            return location.pathname === "/" || location.pathname === "/Admin/dashboard";
+        }
+        return location.pathname.startsWith(path);
+    };
+
     return (
         <>
+            <UserSection>
+                <Avatar 
+                    sx={{
+                        width: 70, 
+                        height: 70, 
+                        mb: 1,
+                        background: 'linear-gradient(135deg, #6a0572 0%, #9546c4 100%)',
+                        boxShadow: '0 4px 10px rgba(106, 5, 114, 0.3)'
+                    }}
+                >
+                    A
+                </Avatar>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#333' }}>
+                    Admin User
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#666', fontSize: '0.8rem' }}>
+                    School Administrator
+                </Typography>
+            </UserSection>
+            
+            <Divider sx={{ mx: 2, mb: 2, borderColor: '#e0e0e0' }} />
+            
+            <Typography variant="overline" sx={{ px: 3, color: '#666', fontWeight: 600, fontSize: '0.7rem' }}>
+                NAVIGATION
+            </Typography>
+            
             <React.Fragment>
-                <ListItemButton component={Link} to="/"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                <StyledListItemButton component={Link} to="/" active={isActive("/") ? 1 : 0}>
                     <ListItemIcon>
-                        <HomeRoundedIcon sx={{ color: location.pathname === ("/" || "/Admin/dashboard") ? '#6a0572' : '#555555' }} />
+                        <DashboardCustomizeIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Home" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/classes"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                    <ListItemText primary="Dashboard" />
+                </StyledListItemButton>
+                
+                <StyledListItemButton component={Link} to="/Admin/classes" active={isActive("/Admin/classes") ? 1 : 0}>
                     <ListItemIcon>
-                        <SchoolRoundedIcon sx={{ color: location.pathname.startsWith('/Admin/classes') ? '#6a0572' : '#555555' }} />
+                        <SchoolRoundedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Classes" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/subjects"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                    <ListItemText primary="Classes" />
+                </StyledListItemButton>
+                
+                <StyledListItemButton component={Link} to="/Admin/subjects" active={isActive("/Admin/subjects") ? 1 : 0}>
                     <ListItemIcon>
-                        <SubjectRoundedIcon sx={{ color: location.pathname.startsWith("/Admin/subjects") ? '#6a0572' : '#555555' }} />
+                        <SubjectRoundedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Subjects" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/teachers"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                    <ListItemText primary="Subjects" />
+                </StyledListItemButton>
+                
+                <StyledListItemButton component={Link} to="/Admin/teachers" active={isActive("/Admin/teachers") ? 1 : 0}>
                     <ListItemIcon>
-                        <GroupOutlinedIcon sx={{ color: location.pathname.startsWith("/Admin/teachers") ? '#6a0572' : '#555555' }} />
+                        <GroupOutlinedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Teachers" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/students"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                    <ListItemText primary="Teachers" />
+                </StyledListItemButton>
+                
+                <StyledListItemButton component={Link} to="/Admin/students" active={isActive("/Admin/students") ? 1 : 0}>
                     <ListItemIcon>
-                        <PeopleAltRoundedIcon sx={{ color: location.pathname.startsWith("/Admin/students") ? '#6a0572' : '#555555' }} />
+                        <PeopleAltRoundedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Students" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/notices"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                    <ListItemText primary="Students" />
+                </StyledListItemButton>
+                
+                <StyledListItemButton component={Link} to="/Admin/notices" active={isActive("/Admin/notices") ? 1 : 0}>
                     <ListItemIcon>
-                        <NotificationsActiveRoundedIcon sx={{ color: location.pathname.startsWith("/Admin/notices") ? '#6a0572' : '#555555' }} />
+                        <MenuItemBadge badgeContent={2}>
+                            <NotificationsActiveRoundedIcon />
+                        </MenuItemBadge>
                     </ListItemIcon>
-                    <ListItemText primary="Notices" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/complains"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                    <ListItemText primary="Notices" />
+                </StyledListItemButton>
+                
+                <StyledListItemButton component={Link} to="/Admin/complains" active={isActive("/Admin/complains") ? 1 : 0}>
                     <ListItemIcon>
-                        <WarningRoundedIcon sx={{ color: location.pathname.startsWith("/Admin/complains") ? '#6a0572' : '#555555' }} />
+                        <MenuItemBadge badgeContent={3} color="error">
+                            <WarningRoundedIcon />
+                        </MenuItemBadge>
                     </ListItemIcon>
-                    <ListItemText primary="Complains" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
+                    <ListItemText primary="Complains" />
+                </StyledListItemButton>
             </React.Fragment>
-            <Divider sx={{ my: 1, borderColor: '#e0e0e0' }} />
+            
+            <Divider sx={{ my: 2, mx: 2, borderColor: '#e0e0e0' }} />
+            
+            <Typography variant="overline" sx={{ px: 3, color: '#666', fontWeight: 600, fontSize: '0.7rem' }}>
+                USER ACCOUNT
+            </Typography>
+            
             <React.Fragment>
-                <ListSubheader component="div" inset sx={{ color: '#555555', fontWeight: 600, fontSize: '0.8rem', paddingLeft: '24px' }}>
-                    User
-                </ListSubheader>
-                <ListItemButton component={Link} to="/Admin/profile"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                <StyledListItemButton component={Link} to="/Admin/profile" active={isActive("/Admin/profile") ? 1 : 0}>
                     <ListItemIcon>
-                        <AccountCircleRoundedIcon sx={{ color: location.pathname.startsWith("/Admin/profile") ? '#6a0572' : '#555555' }} />
+                        <AccountCircleRoundedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Profile" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/logout"
-                    sx={{
-                        '&.Mui-selected': { backgroundColor: 'rgba(106, 5, 114, 0.1)' },
-                        '&:hover': { backgroundColor: 'rgba(106, 5, 114, 0.05)' },
-                    }}>
+                    <ListItemText primary="Profile" />
+                </StyledListItemButton>
+                
+                <StyledListItemButton component={Link} to="/logout" active={isActive("/logout") ? 1 : 0}>
                     <ListItemIcon>
-                        <LogoutRoundedIcon sx={{ color: location.pathname.startsWith("/logout") ? '#6a0572' : '#555555' }} />
+                        <LogoutRoundedIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Logout" sx={{ '& .MuiListItemText-primary': { color: '#333333', fontWeight: 500 } }} />
-                </ListItemButton>
+                    <ListItemText primary="Logout" />
+                </StyledListItemButton>
             </React.Fragment>
+            
+            <Box sx={{ p: 2, mt: 2, mx: 2, borderRadius: 2, bgcolor: 'rgba(106, 5, 114, 0.05)' }}>
+                <Typography variant="body2" sx={{ color: '#666', fontSize: '0.75rem', textAlign: 'center' }}>
+                    School Management System
+                    <br />
+                    <span style={{ fontWeight: 600 }}>v1.2.0</span>
+                </Typography>
+            </Box>
         </>
     )
 }
