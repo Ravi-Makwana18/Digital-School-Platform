@@ -18,7 +18,7 @@ import Popup from '../components/Popup';
 const ChooseUser = ({ visitor }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const password = "zxc";
+  const guestPassword = "guest123";
 
   const { status, currentUser, currentRole } = useSelector(state => state.user);
 
@@ -29,8 +29,8 @@ const ChooseUser = ({ visitor }) => {
   const navigateHandler = (user) => {
     if (user === "Admin") {
       if (visitor === "guest") {
-        const email = "ravi@12";
-        const fields = { email, password };
+        const email = "guest@school.com";
+        const fields = { email, password: guestPassword };
         setLoader(true);
         dispatch(loginUser(fields, user));
       }
@@ -40,9 +40,9 @@ const ChooseUser = ({ visitor }) => {
     }
     else if (user === "Student") {
       if (visitor === "guest") {
-        const rollNum = "1";
-        const studentName = "Raj";
-        const fields = { rollNum, studentName, password };
+        const rollNum = "GUEST";
+        const studentName = "Guest Student";
+        const fields = { rollNum, studentName, password: guestPassword };
         setLoader(true);
         dispatch(loginUser(fields, user));
       }
@@ -52,8 +52,8 @@ const ChooseUser = ({ visitor }) => {
     }
     else if (user === "Teacher") {
       if (visitor === "guest") {
-        const email = "rohan@12";
-        const fields = { email, password };
+        const email = "guest-teacher@school.com";
+        const fields = { email, password: guestPassword };
         setLoader(true);
         dispatch(loginUser(fields, user));
       }

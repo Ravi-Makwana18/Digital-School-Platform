@@ -34,6 +34,20 @@ const adminRegister = async (req, res) => {
 
 const adminLogIn = async (req, res) => {
     if (req.body.email && req.body.password) {
+        // Handle guest login
+        if (req.body.email === "guest@school.com" && req.body.password === "guest123") {
+            const guestAdmin = {
+                _id: "guest",
+                name: "Guest Admin",
+                email: "guest@school.com",
+                role: "Admin",
+                schoolName: "Demo School",
+            };
+            res.send(guestAdmin);
+            return;
+        }
+
+        // Handle regular login
         let admin = await Admin.findOne({ email: req.body.email });
         if (admin) {
             if (req.body.password === admin.password) {

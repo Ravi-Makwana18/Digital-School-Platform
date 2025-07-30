@@ -35,6 +35,27 @@ const studentRegister = async (req, res) => {
 
 const studentLogIn = async (req, res) => {
     try {
+        // Handle guest student login
+        if (req.body.rollNum === "GUEST" && req.body.studentName === "Guest Student" && req.body.password === "guest123") {
+            const guestStudent = {
+                _id: "guest-student",
+                name: "Guest Student",
+                rollNum: "GUEST",
+                role: "Student",
+                school: {
+                    _id: "guest-school",
+                    schoolName: "Demo School"
+                },
+                sclassName: {
+                    _id: "guest-class",
+                    sclassName: "Demo Class"
+                }
+            };
+            res.send(guestStudent);
+            return;
+        }
+
+        // Handle regular student login
         let student = await Student.findOne({ rollNum: req.body.rollNum, name: req.body.studentName });
         if (student) {
             const validated = await bcrypt.compare(req.body.password, student.password);

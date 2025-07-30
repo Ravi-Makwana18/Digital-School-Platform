@@ -28,6 +28,32 @@ const teacherRegister = async (req, res) => {
 
 const teacherLogIn = async (req, res) => {
     try {
+        // Handle guest teacher login
+        if (req.body.email === "guest-teacher@school.com" && req.body.password === "guest123") {
+            const guestTeacher = {
+                _id: "guest-teacher",
+                name: "Guest Teacher",
+                email: "guest-teacher@school.com",
+                role: "Teacher",
+                school: {
+                    _id: "guest-school",
+                    schoolName: "Demo School"
+                },
+                teachSclass: {
+                    _id: "guest-class",
+                    sclassName: "Demo Class"
+                },
+                teachSubject: {
+                    _id: "guest-subject",
+                    subName: "Demo Subject",
+                    sessions: 10
+                }
+            };
+            res.send(guestTeacher);
+            return;
+        }
+
+        // Handle regular teacher login
         let teacher = await Teacher.findOne({ email: req.body.email });
         if (teacher) {
             const validated = await bcrypt.compare(req.body.password, teacher.password);
